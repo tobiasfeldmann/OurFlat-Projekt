@@ -11,7 +11,7 @@ public class OurFlatUebersetzung {
     Stack<String> stackZumMonatFiltern = new Stack<String>();
     Set<String> tage = new TreeSet<String>();
 
-    MainFrame mf1 = new MainFrame();
+    MainFrame mainframe1 = new MainFrame();
 
     private String monat = "";
     private String jahr = "";
@@ -20,11 +20,11 @@ public class OurFlatUebersetzung {
     String ausgabeTextAreal = "";
 
 
-    //Der scanner wird nicht geschlossen, da er später erneut verwendet wird, Verwendung mehrerer Scanner gleichzeitig führt zu einer Exception
+    //Der Scanner wird nicht geschlossen, da er spaeter erneut verwendet wird, Verwendung mehrerer Scanner gleichzeitig fuehrt zu einer Exception
     Scanner scanner = new Scanner(System.in);
 
 
-    //Methoden für die Oberflache**********************************************************************
+    //Methoden fuer die Oberflache**********************************************************************
     //Methode um einen String aus dem Set zu entfernen
     public String entferneStringAusSet(String stringToDel){
         if(filter.contains(stringToDel)){
@@ -96,19 +96,19 @@ public class OurFlatUebersetzung {
         dateiZuListe(s);
         stackAufMonatUeberpreufen();
         stackAufBetraegePruefen();
-        auslesenDerBeträge();
+        auslesenDerBetraege();
         return betrag;
     }
 
-    //ueber ein eingabe feld lässt sich der pfad angeben, dieser wird angesteuert und die vorhandene Datei dann eingelesen und als string gespeichert
-    //gibt die eingelesene Datei als string zueruck
+    //ueber ein eingabe feld laesst sich der pfad angeben, dieser wird angesteuert und die vorhandene Datei dann eingelesen und als string gespeichert
+    //gibt die eingelesene Datei als string zueruck, wird nur verwendet, wenn die Oberflaeche nicht verwendet wird
     public String leseOurFlatDatei(){
 		String eingabe = scanner.nextLine();
 		String pfadOurFlatDatei = eingabe;
         return pfadOurFlatDatei;
     }
 
-    //Methode zum auslesen der Textdatei von ourflat
+    //Methode zum Auslesen der Textdatei von OurFlat
     public String dateiAuslesen(String pfadOurFlatDatei){
         String gesamtString = "";
         try{
@@ -127,7 +127,7 @@ public class OurFlatUebersetzung {
         return gesamtString;
     }
     
-    //füllt das Set mit standardkosten die rausgefiltert werden sollen, sowie das Set zum filtern der Tage
+    //fuellt das Set mit standardkosten die rausgefiltert werden sollen, sowie das Set zum filtern der Tage
     public void zuFilterndeKosten(){ 
         filter.add("Nebenkosten");
         filter.add("Vorzahlung Essen");
@@ -268,8 +268,8 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //Die Inhalte des Stacks stackzumMonatFilter werden auf die ungewuenschten Betraege aus dem Set filter geprueft, wiederverwendung des Stacks stack um die geprueften zu speichern
-    //Die einzelnen Woerter zum Filtern werden ggf durch Leerzeichen getrennt, deshalb wird auf das vorkommen der Wochentage nach einem Leerzeichen geprueft
+    //Die Inhalte des Stacks stackzumMonatFilter werden auf die ungewuenschten Betraege aus dem Set "filter" geprueft, Wiederverwendung des Stacks "stack" um die geprueften zu speichern
+    //Die einzelnen Woerter zum Filtern werden ggf. durch Leerzeichen getrennt, deshalb wird auf das vorkommen der Wochentage nach einem Leerzeichen geprueft
     public void stackAufBetraegePruefen(){
         String aktuellerString = "";
         String leerzeichenPruefen = "";
@@ -319,10 +319,10 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //ungern gewählte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen
+    //ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen
     //Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht
-    //Deshalb wird gleichzeitig nach dem jeweilig gewünschten Jahr gefiltert
-    public float auslesenDerBeträge(){
+    //Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert - Aenderung in zwei Funktionen!
+    public float auslesenDerBetraege(){
         String aktuellerString = "";
         String stringZumPruefen = "";
         String zuErgaenzenderBetrag = "";

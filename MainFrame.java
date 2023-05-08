@@ -10,7 +10,6 @@ public class MainFrame extends JFrame {
     JTextArea textArea = new JTextArea();
     
 
-
   public void initialize(OurFlatUebersetzung objekt) {
 
     //Erstellung des Welcome Labels ***************************
@@ -19,8 +18,6 @@ public class MainFrame extends JFrame {
     welcomeLabel.setFont(mainFont);
     JButton tfWelcomeLabel = new JButton();
     tfWelcomeLabel.setText(Float.toString(objekt.betrag));
-
-
 
 
     //erstellung des FormPanels für die spaetere Anzeige ****************************************************************************************************************FirstSecondThirdLabel
@@ -41,7 +38,6 @@ public class MainFrame extends JFrame {
 
     tfThirdLabel = new JTextField();
     tfThirdLabel.setFont(mainFont);
-
 
 
 

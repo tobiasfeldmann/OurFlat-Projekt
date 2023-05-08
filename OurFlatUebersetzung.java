@@ -24,7 +24,7 @@ public class OurFlatUebersetzung {
     Scanner scanner = new Scanner(System.in);
 
 
-    //Methoden fuer die Oberflache**********************************************************************
+    //Methoden fuer die Oberflache                                                                                                          *****Methoden fuer die Oberflache
     //Methode um einen String aus dem Set zu entfernen
     public String entferneStringAusSet(String stringToDel){
         if(filter.contains(stringToDel)){
@@ -51,7 +51,7 @@ public class OurFlatUebersetzung {
     }
 
     //Methode um den text des Textareals zu aktualisieren
-    public String textArealAktualisieren(){
+    public String anzeigeFilterAktualisieren(){
         ausgabeTextAreal = "";
         for(String string: filter) {
 			ausgabeTextAreal = ausgabeTextAreal + "\n" + string;
@@ -78,7 +78,7 @@ public class OurFlatUebersetzung {
         this.jahr = jahr;
     }
 
-    //*************************************************************************************************************************** Ende Methoden Oberflaeche */
+    //                                                                                                                                          ****** Ende Methoden Oberflaeche */
 
     //methode die von ausserhalb aufgerufen wird und die noetigen Methoden aufruft um die einzelnen Schritte abzuarbeiten
     public float gebeAusgabenzuerueck(){
@@ -137,6 +137,7 @@ public class OurFlatUebersetzung {
         filter.add("Abtrag");
         filter.add("Rundfunk");
         filter.add("Miete");
+        
         //Hinzuefuegen der Tage zum Set tage
         tage.add("Mo.");
         tage.add("Di.");

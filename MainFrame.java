@@ -5,59 +5,58 @@ import javax.swing.*;
 
 public class MainFrame extends JFrame {
     final private Font mainFont = new Font("Arial", Font.PLAIN, 18);
-    JTextField tfFirstLabel, tfSecondLabel, tfThirdLabel, tfWelcomeLabel;
-    JLabel welcomeLabel, textAreaLabel;
-    JTextArea textArea = new JTextArea();
+    JTextField textFieldlabelWoerterHinzufuegen, textFieldlabelWoerterEntfernen, textFieldLabelMonatJahr, textFeldLabelBetrag;
+    JLabel labelBetrag, anzeigeFilterLabel;
+    JTextArea anzeigeFilter = new JTextArea();
     
 
   public void initialize(OurFlatUebersetzung objekt) {
 
-    //Erstellung des Welcome Labels ***************************
+    //Erstellung des Welcome Labels
     //Ausgabefeld als Button erstellt um späteres rauskopieren des Betrags zu ermöglichen
-    welcomeLabel = new JLabel("Anzeige für den Betrag",0);
-    welcomeLabel.setFont(mainFont);
-    JButton tfWelcomeLabel = new JButton();
-    tfWelcomeLabel.setText(Float.toString(objekt.betrag));
+    labelBetrag = new JLabel("Anzeige für den Betrag",0);
+    labelBetrag.setFont(mainFont);
+    JButton textFeldLabelBetrag = new JButton();
+    textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
 
 
-    //erstellung des FormPanels für die spaetere Anzeige ****************************************************************************************************************FirstSecondThirdLabel
-    JLabel firstLabel = new JLabel("Dieses Wort zum Filter hinzufuegen: ",0);
-    firstLabel.setFont(mainFont);
+    //erstellung des FormPanels für die spaetere Anzeige                                                                                        *****FirstSecondlabelMonatJahr
+    JLabel labelWoerterHinzufuegen = new JLabel("Dieses Wort zum Filter hinzufuegen: ",0);
+    labelWoerterHinzufuegen.setFont(mainFont);
 
-    tfFirstLabel = new JTextField();
-    tfFirstLabel.setFont(mainFont);
+    textFieldlabelWoerterHinzufuegen = new JTextField();
+    textFieldlabelWoerterHinzufuegen.setFont(mainFont);
 
-    JLabel secondLabel = new JLabel("Dieses Wort aus dem Filter entfernen: ",0);
-    secondLabel.setFont(mainFont);
+    JLabel labelWoerterEntfernen = new JLabel("Dieses Wort aus dem Filter entfernen: ",0);
+    labelWoerterEntfernen.setFont(mainFont);
 
-    tfSecondLabel = new JTextField();
-    tfSecondLabel.setFont(mainFont);
+    textFieldlabelWoerterEntfernen = new JTextField();
+    textFieldlabelWoerterEntfernen.setFont(mainFont);
 
-    JLabel thirdLabel = new JLabel("zu filternder Monat / Jahr",0);
-    thirdLabel.setFont(mainFont);
+    JLabel labelMonatJahr = new JLabel("zu filternder Monat / Jahr",0);
+    labelMonatJahr.setFont(mainFont);
 
-    tfThirdLabel = new JTextField();
-    tfThirdLabel.setFont(mainFont);
+    textFieldLabelMonatJahr = new JTextField();
+    textFieldLabelMonatJahr.setFont(mainFont);
 
 
 
-    //Erstellen eines TextAreas für die Anzeige der Inhalte des Filters**************************************************************************************************** TextArea
-    textArea.setText("Hier wird der Filter angezeigt");
-    textArea.setOpaque(true);
-    textArea.setFont(mainFont);
+    //Erstellen eines anzeigeFilters für die Anzeige der Inhalte des Filters                                                                    ****** anzeigeFilter
+    anzeigeFilter.setText("Hier wird der Filter angezeigt");
+    anzeigeFilter.setOpaque(true);
+    anzeigeFilter.setFont(mainFont);
 
-    textAreaLabel = new JLabel("Ausgabe des Sets Filter", 0);
-    textAreaLabel.setFont(mainFont);
+    anzeigeFilterLabel = new JLabel("", 0);
+    anzeigeFilterLabel.setFont(mainFont);
 
-    JPanel textAreaPanel = new JPanel();
-    textAreaPanel.setLayout(new GridLayout(2,1,50,10));
-    textAreaPanel.setOpaque(false);
-    textArea.setSize(250,800);
-    //textAreaPanel.add(textAreaLabel);
-    textAreaPanel.add(textArea);
+    JPanel anzeigeFilterPanel = new JPanel();
+    anzeigeFilterPanel.setLayout(new GridLayout(2,1,50,10));
+    anzeigeFilterPanel.setOpaque(false);
+    anzeigeFilter.setSize(250,800);
+    anzeigeFilterPanel.add(anzeigeFilter);
     
 
-    //Erstellen eines Feldes zum aufrufen einer datei und start knopf fuer das programm*****************************************************************************File Chooser
+    //Erstellen eines Feldes zum aufrufen einer datei und start knopf fuer das programm                                                         *****File Chooser
     JFileChooser chooser = new JFileChooser();
     JLabel temp = new JLabel();
     chooser.addActionListener(new ActionListener() {
@@ -67,37 +66,38 @@ public class MainFrame extends JFrame {
         }
     });
 
-    //Startbutton, der den dateipfad uebergibt und dann das Programm startet********************************************************************************Start Button
+    //Startbutton, der den dateipfad uebergibt und dann das Programm startet                                                                    *****Start Button
     JButton startButton = new JButton("Start");
     startButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
-            tfWelcomeLabel.setText("0.0");
+            textFeldLabelBetrag.setText("0.0");
             objekt.dateipfadLesen(temp.getText());
-            tfWelcomeLabel.setText(Float.toString(objekt.betrag));
+            textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
+            anzeigeFilter.setText(objekt.anzeigeFilterAktualisieren());
         }
     });
 
-    textAreaPanel.add(startButton);
-    //Button zum setzen des Monats                            *************************************************************************** Monat Button
+    anzeigeFilterPanel.add(startButton);
+    //Button zum setzen des Monats                                                                                                              ***** Monat Button
     JButton monatButton = new JButton("Monat setzen");
     monatButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
-            String monatButtonText = tfThirdLabel.getText();
+            String monatButtonText = textFieldLabelMonatJahr.getText();
             objekt.setzeMonat(monatButtonText);
-            tfThirdLabel.setText("");
+            textFieldLabelMonatJahr.setText("");
         }
     });
 
-    //Button zum setzten des Jahres     *************************************************************************************************** Jahr Button
+    //Button zum setzten des Jahres                                                                                                             ***** Jahr Button
     JButton jahrButton = new JButton("Jahr setzen");
     jahrButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
-            String jahrButtonText = tfThirdLabel.getText();
+            String jahrButtonText = textFieldLabelMonatJahr.getText();
             objekt.setzeJahr(jahrButtonText);
-            tfThirdLabel.setText("");
+            textFieldLabelMonatJahr.setText("");
         }
     });
 
@@ -112,52 +112,52 @@ public class MainFrame extends JFrame {
     fileChooserPanel.add(jahrButton);
 
 
-    //Erstellen des Panels zur Anzeige der oberen Textfields und Labels*******************************************************************************Form Panel
+    //Erstellen des Panels zur Anzeige der oberen Textfields und Labels                                                                         *****Form Panel
     JPanel formPanel = new JPanel();
     //Tabelle mit 4 Zeilen, einer Reihe und danach folgen die border zwischen den Komponenten
     formPanel.setLayout(new GridLayout(9,1,20,20));
     //transparent machen des FormPanels
     formPanel.setOpaque(false);
-    formPanel.add(welcomeLabel);
-    formPanel.add(tfWelcomeLabel);
-    formPanel.add(firstLabel);
-    formPanel.add(tfFirstLabel);
-    formPanel.add(secondLabel);
-    formPanel.add(tfSecondLabel);
-    formPanel.add(thirdLabel);
-    formPanel.add(tfThirdLabel);
+    formPanel.add(labelBetrag);
+    formPanel.add(textFeldLabelBetrag);
+    formPanel.add(labelWoerterHinzufuegen);
+    formPanel.add(textFieldlabelWoerterHinzufuegen);
+    formPanel.add(labelWoerterEntfernen);
+    formPanel.add(textFieldlabelWoerterEntfernen);
+    formPanel.add(labelMonatJahr);
+    formPanel.add(textFieldLabelMonatJahr);
 
 
 
-    //Erstellung eines Button Panels für die Einrichtung in dem Main Panel ******************************************************************Hinzufuegen Button
+    //Erstellung eines Button Panels für die Einrichtung in dem Main Panel                                                                      *****Hinzufuegen Button
     //OK button
-    JButton buttonOK = new JButton("Hinzufügen");
-    buttonOK.setFont(mainFont);
-    buttonOK.addActionListener(new ActionListener() {
+    JButton buttonHinzufuegen = new JButton("Hinzufügen");
+    buttonHinzufuegen.setFont(mainFont);
+    buttonHinzufuegen.addActionListener(new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-            String firstTextFieldText = tfFirstLabel.getText();
+            String firstTextFieldText = textFieldlabelWoerterHinzufuegen.getText();
             objekt.fuegeStringHinzu(firstTextFieldText);
-            tfFirstLabel.setText("");
+            textFieldlabelWoerterHinzufuegen.setText("");
             String tempString = passeTextAn(objekt);
-            textArea.setText(tempString);
+            anzeigeFilter.setText(tempString);
             
         }
     });
 
-    //Abbruch button*********************************************************************************************************************Lösch Button
-    JButton buttonABBRUCH = new JButton("Entfernen");
-    buttonABBRUCH.setFont(mainFont);
-    buttonABBRUCH.addActionListener(new ActionListener() {
+    //Abbruch button                                                                                                                                *****Lösch Button
+    JButton buttonEntfernen = new JButton("Entfernen");
+    buttonEntfernen.setFont(mainFont);
+    buttonEntfernen.addActionListener(new ActionListener() {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String secondTextFieldText = tfSecondLabel.getText();
+            String secondTextFieldText = textFieldlabelWoerterEntfernen.getText();
             objekt.entferneStringAusSet(secondTextFieldText);
-            tfSecondLabel.setText("");
-            textArea.setText(passeTextAn(objekt));
+            textFieldlabelWoerterEntfernen.setText("");
+            anzeigeFilter.setText(passeTextAn(objekt));
         }
     });
 
@@ -165,12 +165,12 @@ public class MainFrame extends JFrame {
     buttonsPanel.setLayout(new GridLayout(1,2,5,5));
     //transparenz einschalten
     buttonsPanel.setOpaque(false);
-    buttonsPanel.add(buttonOK);
-    buttonsPanel.add(buttonABBRUCH);
+    buttonsPanel.add(buttonHinzufuegen);
+    buttonsPanel.add(buttonEntfernen);
 
 
 
-    //Main anzeige *******************************************************************************************************************************Main Anzeige
+    //Main anzeige                                                                                                                                  *****Main Anzeige
     JPanel mainPanel = new JPanel();
     mainPanel.setLayout(new BorderLayout());
     mainPanel.setBackground(new Color(128, 128, 255));
@@ -185,9 +185,9 @@ public class MainFrame extends JFrame {
     buttonsPanel.setBorder(BorderFactory.createEmptyBorder(5,50,5,50));
     mainPanel.add(buttonsPanel, BorderLayout.SOUTH);
 
-    //Hinzufuegen des Panels TextArea
-    textAreaPanel.setBorder(BorderFactory.createEmptyBorder(5,50,5,50));
-    mainPanel.add(textAreaPanel, BorderLayout.WEST);
+    //Hinzufuegen des Panels anzeigeFilter
+    anzeigeFilterPanel.setBorder(BorderFactory.createEmptyBorder(5,50,5,50));
+    mainPanel.add(anzeigeFilterPanel, BorderLayout.WEST);
  
     //Hinzufuegen des File Panel
     fileChooserPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
@@ -206,9 +206,9 @@ public class MainFrame extends JFrame {
   }
 
 
-  //Methode um den Text des TextArea anzupassen
+  //Methode um den Text des anzeigeFilter anzupassen
 public String passeTextAn(OurFlatUebersetzung objekt){
-    String temp = objekt.textArealAktualisieren();
+    String temp = objekt.anzeigeFilterAktualisieren();
     return temp;
     }
 }

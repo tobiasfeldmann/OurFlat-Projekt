@@ -80,7 +80,7 @@ public class OurFlatUebersetzung {
 
     //                                                                                                                                          ****** Ende Methoden Oberflaeche */
 
-    //methode die von ausserhalb aufgerufen wird und die noetigen Methoden aufruft um die einzelnen Schritte abzuarbeiten
+    //Methode die von ausserhalb aufgerufen wird und die noetigen Methoden aufruft um die einzelnen Schritte abzuarbeiten
     public float gebeAusgabenzuerueck(){
         betrag = 0;
         String s =  "";
@@ -108,7 +108,7 @@ public class OurFlatUebersetzung {
         return pfadOurFlatDatei;
     }
 
-    //Methode zum Auslesen der Textdatei von OurFlat
+    //Methode zum Auslesen der Textdatei von OurFlat -> Anpassung des Einlesens fuer groeßere Dateien, String wird irgendwann seeehr lang                               *****To Do
     public String dateiAuslesen(String pfadOurFlatDatei){
         String gesamtString = "";
         try{
@@ -127,7 +127,7 @@ public class OurFlatUebersetzung {
         return gesamtString;
     }
     
-    //fuellt das Set mit standardkosten die rausgefiltert werden sollen, sowie das Set zum filtern der Tage
+    //fuellt das Set mit Standardkosten die jeden Monat anfallen aber rausgefiltert werden sollen, sowie das Set zum entfernen der Tage aus dem String
     public void zuFilterndeKosten(){ 
         filter.add("Nebenkosten");
         filter.add("Vorzahlung Essen");
@@ -320,8 +320,8 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen
-    //Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht
+    //ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen                         *****Teilen in zwei Funktionen
+    //Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht                                            *****ToDo
     //Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert - Aenderung in zwei Funktionen!
     public float auslesenDerBetraege(){
         String aktuellerString = "";

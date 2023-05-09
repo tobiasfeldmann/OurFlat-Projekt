@@ -67,7 +67,7 @@ public class MainFrame extends JFrame {
     });
 
     //Startbutton, der den dateipfad uebergibt und dann das Programm startet                                                                    *****Start Button
-    JButton startButton = new JButton("Start");
+    JButton startButton = new JButton("Start");                                                                                            //ToDo: Anpassen der Groeße der Buttons
     startButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){

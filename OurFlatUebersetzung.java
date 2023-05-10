@@ -52,6 +52,7 @@ public class OurFlatUebersetzung {
 
     //Methode um den text des Textareals zu aktualisieren
     public String anzeigeFilterAktualisieren(){
+        zuFilterndeKosten();
         ausgabeTextAreal = "";
         for(String string: filter) {
 			ausgabeTextAreal = ausgabeTextAreal + "\n" + string;

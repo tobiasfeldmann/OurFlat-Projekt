@@ -8,9 +8,11 @@ public class MainFrame extends JFrame {
     JTextField textFieldlabelWoerterHinzufuegen, textFieldlabelWoerterEntfernen, textFieldLabelMonatJahr, textFeldLabelBetrag;
     JLabel labelBetrag, anzeigeFilterLabel;
     JTextArea anzeigeFilter = new JTextArea();
+    Dimension buttonSize = new Dimension(100, 100);
     
 
   public void initialize(OurFlatUebersetzung objekt) {
+    
 
     //Erstellung des Welcome Labels
     //Ausgabefeld als Button erstellt um späteres rauskopieren des Betrags zu ermöglichen
@@ -42,17 +44,18 @@ public class MainFrame extends JFrame {
 
 
     //Erstellen eines anzeigeFilters für die Anzeige der Inhalte des Filters                                                                    ****** anzeigeFilter
-    anzeigeFilter.setText("Hier wird der Filter angezeigt");
+    anzeigeFilter.setText(passeTextAn(objekt));
+    //setOpaque true verhindert die Durchsichtigkeit des Elements
     anzeigeFilter.setOpaque(true);
     anzeigeFilter.setFont(mainFont);
 
-    anzeigeFilterLabel = new JLabel("", 0);
+    anzeigeFilterLabel = new JLabel("Zu filternde Kosten:", 0);
     anzeigeFilterLabel.setFont(mainFont);
 
     JPanel anzeigeFilterPanel = new JPanel();
-    anzeigeFilterPanel.setLayout(new GridLayout(2,1,50,10));
+    anzeigeFilterPanel.setLayout(new GridLayout(1,1,50,10));
     anzeigeFilterPanel.setOpaque(false);
-    anzeigeFilter.setSize(250,800);
+    //anzeigeFilterPanel.add(anzeigeFilterLabel);
     anzeigeFilterPanel.add(anzeigeFilter);
     
 
@@ -68,6 +71,7 @@ public class MainFrame extends JFrame {
 
     //Startbutton, der den dateipfad uebergibt und dann das Programm startet                                                                    *****Start Button
     JButton startButton = new JButton("Start");                                                                                            //ToDo: Anpassen der Groeße der Buttons
+    startButton.setFont(mainFont);
     startButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
@@ -78,9 +82,9 @@ public class MainFrame extends JFrame {
         }
     });
 
-    anzeigeFilterPanel.add(startButton);
     //Button zum setzen des Monats                                                                                                              ***** Monat Button
     JButton monatButton = new JButton("Monat setzen");
+    monatButton.setFont(mainFont);
     monatButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
@@ -92,6 +96,7 @@ public class MainFrame extends JFrame {
 
     //Button zum setzten des Jahres                                                                                                             ***** Jahr Button
     JButton jahrButton = new JButton("Jahr setzen");
+    jahrButton.setFont(mainFont);
     jahrButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
@@ -104,12 +109,11 @@ public class MainFrame extends JFrame {
 
     //Panel für die file aussuche und den start button
     JPanel fileChooserPanel = new JPanel();
-    fileChooserPanel.setLayout(new GridLayout(3,1,5,5));
+    fileChooserPanel.setSize(900,600);
+    fileChooserPanel.setLayout(new GridLayout(1,1,5,5));
     fileChooserPanel.setOpaque(false);
+    //chooser.setPreferredSize(buttonSize);
     fileChooserPanel.add(chooser);
-    //fileChooserPanel.add(startButton);
-    fileChooserPanel.add(monatButton);
-    fileChooserPanel.add(jahrButton);
 
 
     //Erstellen des Panels zur Anzeige der oberen Textfields und Labels                                                                         *****Form Panel
@@ -131,7 +135,7 @@ public class MainFrame extends JFrame {
 
     //Erstellung eines Button Panels für die Einrichtung in dem Main Panel                                                                      *****Hinzufuegen Button
     //OK button
-    JButton buttonHinzufuegen = new JButton("Hinzufügen");
+    JButton buttonHinzufuegen = new JButton("Wort hinzufügen");
     buttonHinzufuegen.setFont(mainFont);
     buttonHinzufuegen.addActionListener(new ActionListener() {
 
@@ -148,7 +152,7 @@ public class MainFrame extends JFrame {
     });
 
     //Abbruch button                                                                                                                                *****Lösch Button
-    JButton buttonEntfernen = new JButton("Entfernen");
+    JButton buttonEntfernen = new JButton("Wort entfernen");
     buttonEntfernen.setFont(mainFont);
     buttonEntfernen.addActionListener(new ActionListener() {
 
@@ -167,8 +171,9 @@ public class MainFrame extends JFrame {
     buttonsPanel.setOpaque(false);
     buttonsPanel.add(buttonHinzufuegen);
     buttonsPanel.add(buttonEntfernen);
-
-
+    buttonsPanel.add(monatButton);
+    buttonsPanel.add(jahrButton);
+    buttonsPanel.add(startButton);
 
     //Main anzeige                                                                                                                                  *****Main Anzeige
     JPanel mainPanel = new JPanel();
@@ -189,17 +194,16 @@ public class MainFrame extends JFrame {
     anzeigeFilterPanel.setBorder(BorderFactory.createEmptyBorder(5,50,5,50));
     mainPanel.add(anzeigeFilterPanel, BorderLayout.WEST);
  
-    //Hinzufuegen des File Panel
+    //Hinzufuegen des File Panel (File chooser und monatButton / jahrButton)
     fileChooserPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
     mainPanel.add(fileChooserPanel, BorderLayout.EAST);
 
     //Hinzufuegen des Mainpanels zu JFrame, nötig fuer anzeige
     add(mainPanel);
 
-
     setTitle("OurFlat Übersetzung");
     setSize(1400,790);
-    setMinimumSize(new Dimension(650, 400));
+    setMinimumSize(new Dimension(1400, 790));
     setLocationRelativeTo(null);
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setVisible(true);

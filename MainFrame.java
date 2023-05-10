@@ -13,16 +13,15 @@ public class MainFrame extends JFrame {
 
   public void initialize(OurFlatUebersetzung objekt) {
     
-
     //Erstellung des Welcome Labels
-    //Ausgabefeld als Button erstellt um späteres rauskopieren des Betrags zu ermöglichen
+    //Ausgabefeld als Button erstellt um späteres rauskopieren des Betrags zu ermöglichen -> noch nicht implementiert
     labelBetrag = new JLabel("Anzeige für den Betrag",0);
     labelBetrag.setFont(mainFont);
     JButton textFeldLabelBetrag = new JButton();
     textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
 
 
-    //erstellung des FormPanels für die spaetere Anzeige                                                                                        *****FirstSecondlabelMonatJahr
+    //Erstellung des FormPanels für die spaetere Anzeige                                                                                        *****First / Second / Monat / Jahr Labels
     JLabel labelWoerterHinzufuegen = new JLabel("Dieses Wort zum Filter hinzufuegen: ",0);
     labelWoerterHinzufuegen.setFont(mainFont);
 
@@ -55,7 +54,6 @@ public class MainFrame extends JFrame {
     JPanel anzeigeFilterPanel = new JPanel();
     anzeigeFilterPanel.setLayout(new GridLayout(1,1,50,10));
     anzeigeFilterPanel.setOpaque(false);
-    //anzeigeFilterPanel.add(anzeigeFilterLabel);
     anzeigeFilterPanel.add(anzeigeFilter);
     
 
@@ -94,7 +92,7 @@ public class MainFrame extends JFrame {
         }
     });
 
-    //Button zum setzten des Jahres                                                                                                             ***** Jahr Button
+    //Button zum setzen des Jahres                                                                                                             ***** Jahr Button
     JButton jahrButton = new JButton("Jahr setzen");
     jahrButton.setFont(mainFont);
     jahrButton.addActionListener(new ActionListener() {
@@ -107,12 +105,11 @@ public class MainFrame extends JFrame {
     });
 
 
-    //Panel für die file aussuche und den start button
+    //Panel für die Wahl der Datei
     JPanel fileChooserPanel = new JPanel();
     fileChooserPanel.setSize(900,600);
     fileChooserPanel.setLayout(new GridLayout(1,1,5,5));
     fileChooserPanel.setOpaque(false);
-    //chooser.setPreferredSize(buttonSize);
     fileChooserPanel.add(chooser);
 
 
@@ -122,6 +119,7 @@ public class MainFrame extends JFrame {
     formPanel.setLayout(new GridLayout(9,1,20,20));
     //transparent machen des FormPanels
     formPanel.setOpaque(false);
+    //Hinzufuegen der einzelnen Bestandteile
     formPanel.add(labelBetrag);
     formPanel.add(textFeldLabelBetrag);
     formPanel.add(labelWoerterHinzufuegen);
@@ -201,6 +199,7 @@ public class MainFrame extends JFrame {
     //Hinzufuegen des Mainpanels zu JFrame, nötig fuer anzeige
     add(mainPanel);
 
+    //Eigenschaften des Fensters, nicht verkleinerbar, da sonst die Anordnung zerstoert wird
     setTitle("OurFlat Übersetzung");
     setSize(1400,790);
     setMinimumSize(new Dimension(1400, 790));

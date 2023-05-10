@@ -21,10 +21,11 @@ public class OurFlatUebersetzung {
 
 
     //Der Scanner wird nicht geschlossen, da er spaeter erneut verwendet wird, Verwendung mehrerer Scanner gleichzeitig fuehrt zu einer Exception
+    //Scanner wird nur verwendet, wenn die Oberflaeche nicht verwendet wird -> liest die Eingabe des Dateipfads sowie monat/jahr etc aus der Konsole aus
     Scanner scanner = new Scanner(System.in);
 
 
-    //Methoden fuer die Oberflache                                                                                                          *****Methoden fuer die Oberflache
+    //Methoden fuer die Oberflaeche                                                                                                          *****Methoden fuer die Oberflaeche
     //Methode um einen String aus dem Set zu entfernen
     public String entferneStringAusSet(String stringToDel){
         if(filter.contains(stringToDel)){
@@ -36,7 +37,7 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //Methode um String aus der Oberflache zum filter hinzuzufuegen
+    //Methode um Strings aus der Oberflaeche zum filter hinzuzufuegen
     public String fuegeStringHinzu(String stringToAdd){
         filter.add(stringToAdd);
         filter.add("Nebenkosten");
@@ -50,8 +51,9 @@ public class OurFlatUebersetzung {
         return stringToAdd + " wurde erfolgreich hinzugefuegt";
     }
 
-    //Methode um den text des Textareals zu aktualisieren
+    //Methode um den Text des Textareals zu aktualisieren
     public String anzeigeFilterAktualisieren(){
+        //Initialisiert die Erstellung des Filters filter damit die Kosten direkt zu Beginn in der Oberflaeche angezeigt werden
         zuFilterndeKosten();
         ausgabeTextAreal = "";
         for(String string: filter) {
@@ -92,7 +94,7 @@ public class OurFlatUebersetzung {
             s = dateiPfad;
         }
         s = dateiAuslesen(s);
-        zuFilterndeKosten();
+        //zuFilterndeKosten(); -> wird hier nicht mehr benötigt, da die Methode bei Initialisierung der Oberflaeche ausgeführt wird
         s = entferneSonderzeichen(s);
         dateiZuListe(s);
         stackAufMonatUeberpreufen();
@@ -102,7 +104,7 @@ public class OurFlatUebersetzung {
     }
 
     //ueber ein eingabe feld laesst sich der pfad angeben, dieser wird angesteuert und die vorhandene Datei dann eingelesen und als string gespeichert
-    //gibt die eingelesene Datei als string zueruck, wird nur verwendet, wenn die Oberflaeche nicht verwendet wird
+    //gibt die eingelesene Datei als string zueruck, wird nur(!) verwendet, wenn die Oberflaeche nicht verwendet wird -> Testzwecke
     public String leseOurFlatDatei(){
 		String eingabe = scanner.nextLine();
 		String pfadOurFlatDatei = eingabe;
@@ -139,7 +141,7 @@ public class OurFlatUebersetzung {
         filter.add("Rundfunk");
         filter.add("Miete");
         
-        //Hinzuefuegen der Tage zum Set tage
+        //Hinzuefuegen der Tage zum Set tage um diese aus dem String s zu filtern
         tage.add("Mo.");
         tage.add("Di.");
         tage.add("Mi.");

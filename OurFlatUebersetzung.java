@@ -11,8 +11,6 @@ public class OurFlatUebersetzung {
     Stack<String> stackZumMonatFiltern = new Stack<String>();
     Set<String> tage = new TreeSet<String>();
 
-    MainFrame mainframe1 = new MainFrame();
-
     private String monat = "";
     private String jahr = "";
     public float betrag = 0;
@@ -24,9 +22,18 @@ public class OurFlatUebersetzung {
     //Scanner wird nur verwendet, wenn die Oberflaeche nicht verwendet wird -> liest die Eingabe des Dateipfads sowie monat/jahr etc aus der Konsole aus
     Scanner scanner = new Scanner(System.in);
 
+    //definiert direkt die Filter filter und tage
+    public OurFlatUebersetzung() {
+        createWeekdaysFilter();
+        createBaseFilters();
+    }
 
-    //Methoden fuer die Oberflaeche                                                                                                          *****Methoden fuer die Oberflaeche
-    //Methode um einen String aus dem Set zu entfernen
+    //                                                                                                                                                       *****Methoden fuer die Oberflaeche
+    /**
+    *Entfernt einen String aus dem Set
+    *@param stringToDel der zu entfernende String
+    *@return Meldung fuer Erfolg / Misserfolg
+    */
     public String entferneStringAusSet(String stringToDel){
         if(filter.contains(stringToDel)){
             filter.remove(stringToDel);
@@ -37,24 +44,19 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //Methode um Strings aus der Oberflaeche zum filter hinzuzufuegen
-    public String fuegeStringHinzu(String stringToAdd){
+    /**
+     * Fügt einen String zum Filter hinzu
+     * @param stringToAdd der zu hinzufügende String
+     */
+    public void fuegeStringHinzu(String stringToAdd){
         filter.add(stringToAdd);
-        filter.add("Nebenkosten");
-        filter.add("Vorzahlung Essen");
-        filter.add("Vorzahlung");
-        filter.add("Internet");
-        filter.add("Ausgleich");
-        filter.add("Abtrag");
-        filter.add("Rundfunk");
-        filter.add("Miete");
-        return stringToAdd + " wurde erfolgreich hinzugefuegt";
     }
 
-    //Methode um den Text des Textareals zu aktualisieren
-    public String anzeigeFilterAktualisieren(){
-        //Initialisiert die Erstellung des Filters filter damit die Kosten direkt zu Beginn in der Oberflaeche angezeigt werden
-        zuFilterndeKosten();
+    /**
+     * Liefert den Text für den Filter
+     * @return
+     */
+    public String getFilterText(){
         ausgabeTextAreal = "";
         for(String string: filter) {
 			ausgabeTextAreal = ausgabeTextAreal + "\n" + string;
@@ -62,39 +64,69 @@ public class OurFlatUebersetzung {
         return ausgabeTextAreal;
     }
 
-    //methode um den pfad einzugeben
+    /**
+     * Liest den Dateipfad ein
+     * @param pfad Der Dateinpfad
+     */
     public void dateipfadLesen(String pfad){
         dateiPfad = pfad;
         gebeAusgabenzuerueck();
     }
 
-    //Methode um den Endbetrag zur Ausgabe zu kriegen
+    /**
+     * Liefert den Endbetrag
+     * @return Der Enbetrag
+     */
     public String getEndbetrag(){
         return Float.toString(betrag);
     }
 
-    //Methoden zum aufrufen um Monat und Jahr zu setzen
+    /**
+     * Setz den Monat
+     * @param monat Der Monat
+     */
     public void setzeMonat(String monat){
         this.monat = monat;
     }
+
+    /**
+     * Setzt das Jahr
+     * @param jahr Das Jahr
+     */
     public void setzeJahr(String jahr){
         this.jahr = jahr;
     }
 
+    /**
+     * Überprüft ob Jahr, Monat und dateiPfad eingegeben wurden
+     * @return boolean 
+     */
+    public boolean ueberpruefeVoraussetzungen(){
+        if(!jahr.equals("") && !monat.equals("") && !dateiPfad.equals("")){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     //                                                                                                                                          ****** Ende Methoden Oberflaeche */
 
-    //Methode die von ausserhalb aufgerufen wird und die noetigen Methoden aufruft um die einzelnen Schritte abzuarbeiten
+    /**
+     * Berechnet und liefert die Ausgaben
+     *
+     * @return Die Ausgaben
+     */
     public float gebeAusgabenzuerueck(){
-        betrag = 0;
+    betrag = 0;
         String s =  "";
-        if(dateiPfad.equals("")){
+        if(dateiPfad.strip().isEmpty()){
             s = leseOurFlatDatei();
         }
         else{
             s = dateiPfad;
         }
         s = dateiAuslesen(s);
-        //zuFilterndeKosten(); -> wird hier nicht mehr benötigt, da die Methode bei Initialisierung der Oberflaeche ausgeführt wird
         s = entferneSonderzeichen(s);
         dateiZuListe(s);
         stackAufMonatUeberpreufen();
@@ -103,15 +135,24 @@ public class OurFlatUebersetzung {
         return betrag;
     }
 
-    //ueber ein eingabe feld laesst sich der pfad angeben, dieser wird angesteuert und die vorhandene Datei dann eingelesen und als string gespeichert
-    //gibt die eingelesene Datei als string zueruck, wird nur(!) verwendet, wenn die Oberflaeche nicht verwendet wird -> Testzwecke
+    /**
+     *  ueber ein eingabe feld laesst sich der pfad angeben, dieser wird angesteuert und die vorhandene Datei dann eingelesen und als string gespeichert
+     * gibt die eingelesene Datei als string zueruck, wird nur(!) verwendet, wenn die Oberflaeche nicht verwendet wird -> Testzwecke
+     * @return Pfad zur datei
+     */
     public String leseOurFlatDatei(){
 		String eingabe = scanner.nextLine();
 		String pfadOurFlatDatei = eingabe;
         return pfadOurFlatDatei;
     }
 
-    //Methode zum Auslesen der Textdatei von OurFlat -> Anpassung des Einlesens fuer groeßere Dateien, String wird irgendwann seeehr lang                               *****To Do
+    /**
+     * Liest die Datei aus
+     *
+     * @param pfadOurFlatDatei
+     *
+     * @return Die Datei
+     */
     public String dateiAuslesen(String pfadOurFlatDatei){
         String gesamtString = "";
         try{
@@ -120,6 +161,8 @@ public class OurFlatUebersetzung {
                 new FileInputStream(
                 new File(pfadOurFlatDatei))));
             for(String s1 = b1.readLine(); s1 != null; s1 = b1.readLine()){
+                //line prüfen auf Limiter (=) dann weitergeben an andere Funktionen, ==== nicht zu String 
+                //dann reseten, und Reader geht automatisch auf nächste Zeile -> ToDo
                 gesamtString = gesamtString + s1;
             }
             b1.close();
@@ -130,58 +173,31 @@ public class OurFlatUebersetzung {
         return gesamtString;
     }
     
-    //fuellt das Set mit Standardkosten die jeden Monat anfallen aber rausgefiltert werden sollen, sowie das Set zum entfernen der Tage aus dem String
-    public void zuFilterndeKosten(){ 
-        filter.add("Nebenkosten");
-        filter.add("Vorzahlung Essen");
-        filter.add("Vorzahlung");
-        filter.add("Internet");
-        filter.add("Ausgleich");
-        filter.add("Abtrag");
-        filter.add("Rundfunk");
-        filter.add("Miete");
-        
-        //Hinzuefuegen der Tage zum Set tage um diese aus dem String s zu filtern
-        tage.add("Mo.");
-        tage.add("Di.");
-        tage.add("Mi.");
-        tage.add("Do.");
-        tage.add("Fr.");
-        tage.add("Sa.");
-        tage.add("So.");
-
-
-        //Frueher einmal abfrage nach weiteren woertern die gefiltert werden sollen, vor der GUI
-        /*boolean weiter = true;
-        int counter = 0;
-        System.out.println("Sollen weitere Woerter gefiltert werden?");
-        String weiterStringFrage = scanner.nextLine();
-        if(weiterStringFrage.equals("Nein")){
-            weiter = false;
+    /**
+     * Initialisiert den Basisfilter (Basiskosten)
+     */
+    public void createBaseFilters() {
+        for (String baseFilter: StandardFilters.BASE_FILTERS){
+            filter.add(baseFilter);
         }
-        while(weiter == true){   
-            if(counter == 0){
-                System.out.println("Welche Woerter sollen gefiltert werden?");
-                String zuFiltern = scanner.nextLine();
-                filter.add(zuFiltern);
-                counter = 1;
-            }
-            if(counter == 1){
-                System.out.println("Weitere Woerter filtern?");
-                String weitereFilter = scanner.nextLine();
-                if(weitereFilter.equals("Nein")){
-                    weiter = false;
-                    break;
-                }
-                else{
-                    counter = 0;
-                }
-            }
-        }*/
     }
     
-    //entfernt gewoehnliche Sonderzeichen sowie redundante Formulierungen
-    //ersetzt außerdem die Kommas in Bruchbetraegen durch Punkte damit diese spaeter als Float verarbeitet werden koennen
+    /**
+     * Initialisiert den Wochentagsfilter
+     */
+    public void createWeekdaysFilter() {
+        for(String weekday: StandardFilters.WEEKDAYS){
+            tage.add(weekday);
+        }
+    }
+    
+    
+    /**
+     * entfernt gewoehnliche Sonderzeichen sowie redundante Formulierungen
+     * ersetzt außerdem die Kommas in Bruchbetraegen durch Punkte damit diese spaeter als Float verarbeitet werden koennen
+     * @param s der String
+     * @return Der String mit entfernten Zeichen
+     */
     public String entferneSonderzeichen(String s){
         //einmaliges entfernen der == am beginn der Datei, die ein zeichen weniger enthalten
         s = s.replaceFirst("==========", "===========");
@@ -205,7 +221,12 @@ public class OurFlatUebersetzung {
         return s;
     }
 
-    //Fuegt die einzelnen Betraege einem Stack hinzu, in dem diese durch die Slashs getrennt und hinzugefuegt werden
+    /**
+     * Fuegt die einzelnen Betraege einem Stack hinzu, in dem diese durch die Slashs getrennt und hinzugefuegt werden
+     *
+     * @param s Die datei
+     * @return Der Stack
+     */
     public Stack<String> dateiZuListe(String s){
         int counterSlash = 0;
         int startIndex = 0;
@@ -230,19 +251,21 @@ public class OurFlatUebersetzung {
         return stack;
     }
 
-    //Prueft die einzeln Eintraege des Stacks auf den gewuenschten Monat und fuegt diese dem Stack stackZumMonatFilter dann hinzu
+    /**
+     * Prueft die einzeln Eintraege des Stacks auf den gewuenschten Monat und fuegt diese dem Stack stackZumMonatFilter dann hinzu
+     */
     public void stackAufMonatUeberpreufen(){
         boolean bereitsEntfernt = false;
         String aktuellerString = "";
         String stringZumPruefen = "";
-        for(int i2 = 0; i2 <= stack.size(); i2++){
+        while(!stack.empty()){
             bereitsEntfernt = false;
             aktuellerString = stack.peek();
-            for(int i3 = 0; i3 < aktuellerString.length(); i3++){
-                if(Character.toString(aktuellerString.charAt(i3)).equals(Character.toString(monat.charAt(0)))){
-                    int itemp = i3;
+            for(int charIndex = 0; charIndex < aktuellerString.length(); charIndex++){
+                if(aktuellerString.charAt(charIndex) == monat.charAt(0)){
+                    int itemp = charIndex;
                     stringZumPruefen = "";
-                    while(!Character.toString(aktuellerString.charAt(itemp)).equals(" ")){
+                    while(aktuellerString.charAt(itemp) != ' '){
                         stringZumPruefen = stringZumPruefen + Character.toString(aktuellerString.charAt(itemp));
                         itemp++;
                         if(stringZumPruefen.equals(monat)){
@@ -251,29 +274,25 @@ public class OurFlatUebersetzung {
                             bereitsEntfernt = true;
                             break;
                         }
-                        if(Character.toString(aktuellerString.charAt(i3)).equals(" ")){
+                        if(aktuellerString.charAt(charIndex) == ' '){
                             break;
                         }
                     }
-                    if(bereitsEntfernt == true){
+                    if(bereitsEntfernt){
                         break;
                     }
                 }
             }
-            if(stack.empty()){
-                break;
-            }
-            else{
-                i2 = 0;
-            }
-            if(bereitsEntfernt == false){
+            if(!bereitsEntfernt){
                 stack.pop();
             }
         }
     }
 
-    //Die Inhalte des Stacks stackzumMonatFilter werden auf die ungewuenschten Betraege aus dem Set "filter" geprueft, Wiederverwendung des Stacks "stack" um die geprueften zu speichern
-    //Die einzelnen Woerter zum Filtern werden ggf. durch Leerzeichen getrennt, deshalb wird auf das vorkommen der Wochentage nach einem Leerzeichen geprueft
+    /**
+     * Die Inhalte des Stacks stackzumMonatFilter werden auf die ungewuenschten Betraege aus dem Set "filter" geprueft, Wiederverwendung des Stacks "stack" um die geprueften zu speichern
+     * Die einzelnen Woerter zum Filtern werden ggf. durch Leerzeichen getrennt, deshalb wird auf das vorkommen der Wochentage nach einem Leerzeichen geprueft
+     */
     public void stackAufBetraegePruefen(){
         String aktuellerString = "";
         String leerzeichenPruefen = "";
@@ -283,18 +302,18 @@ public class OurFlatUebersetzung {
         while(!stackZumMonatFiltern.empty()){
             aktuellerString = stackZumMonatFiltern.peek();
             //aktualisieren des Strings
-            for(int i2 = 1; i2 < aktuellerString.length(); i2++){
+            for(int charIndex = 1; charIndex < aktuellerString.length(); charIndex++){
                 int itemp = 0;
                 leerzeichenGefunden = false;
                 leerzeichenPruefen = "";
-                stringZumPruefen = stringZumPruefen + Character.toString(aktuellerString.charAt(i2));
+                stringZumPruefen = stringZumPruefen + Character.toString(aktuellerString.charAt(charIndex));
                 //zu pruefender String wurde definiert, sobald der naechste char ein " " ist beginnt die Ueberpruefueng auf die Wochentage
-                if(Character.toString(aktuellerString.charAt(i2)).equals(" ")){
-                    for(int i3 = i2 + 1; itemp < 4; i3++){
+                if(Character.toString(aktuellerString.charAt(charIndex)).equals(" ")){
+                    for(int i3 = charIndex + 1; itemp < 4; i3++){
                         leerzeichenPruefen = leerzeichenPruefen + Character.toString(aktuellerString.charAt(i3));
                         if(tage.contains(leerzeichenPruefen)){
                             leerzeichenGefunden = true;
-                            stringZumPruefen = stringZumPruefen.substring(0, (i2 - 1));
+                            stringZumPruefen = stringZumPruefen.substring(0, (charIndex - 1));
                             break;
                         }
                         if(i3 == aktuellerString.length() - 1){
@@ -323,9 +342,12 @@ public class OurFlatUebersetzung {
         }
     }
 
-    //ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen                         *****Teilen in zwei Funktionen
-    //Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht                                            *****ToDo
-    //Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert - Aenderung in zwei Funktionen!
+    /**
+     * ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen                         *****Teilen in zwei Funktionen
+     * Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht                                            *****ToDo
+     * Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert - Aenderung in zwei Funktionen!
+     * @return
+     */
     public float auslesenDerBetraege(){
         String aktuellerString = "";
         String stringZumPruefen = "";

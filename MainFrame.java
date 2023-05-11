@@ -8,8 +8,9 @@ public class MainFrame extends JFrame {
     JTextField textFieldlabelWoerterHinzufuegen, textFieldlabelWoerterEntfernen, textFieldLabelMonatJahr, textFeldLabelBetrag;
     JLabel labelBetrag, anzeigeFilterLabel;
     JTextArea anzeigeFilter = new JTextArea();
+    JButton startButton;
     Dimension buttonSize = new Dimension(100, 100);
-    
+
 
   public void initialize(OurFlatUebersetzung objekt) {
     
@@ -43,7 +44,7 @@ public class MainFrame extends JFrame {
 
 
     //Erstellen eines anzeigeFilters für die Anzeige der Inhalte des Filters                                                                    ****** anzeigeFilter
-    anzeigeFilter.setText(passeTextAn(objekt));
+    anzeigeFilter.setText(objekt.getFilterText());
     //setOpaque true verhindert die Durchsichtigkeit des Elements
     anzeigeFilter.setOpaque(true);
     anzeigeFilter.setFont(mainFont);
@@ -64,19 +65,21 @@ public class MainFrame extends JFrame {
         public void actionPerformed(ActionEvent e){
             String dateiPfad = chooser.getSelectedFile().getPath().toString();
             temp.setText(dateiPfad);
+            objekt.dateipfadLesen(temp.getText());
+            enableStartButton(objekt.ueberpruefeVoraussetzungen());
         }
     });
 
     //Startbutton, der den dateipfad uebergibt und dann das Programm startet                                                                    *****Start Button
-    JButton startButton = new JButton("Start");                                                                                            //ToDo: Anpassen der Groeße der Buttons
+    startButton = new JButton("Start"); 
+    startButton.setEnabled(false);                                                                                        //ToDo: Anpassen der Groeße der Buttons
     startButton.setFont(mainFont);
     startButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e){
             textFeldLabelBetrag.setText("0.0");
-            objekt.dateipfadLesen(temp.getText());
             textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
-            anzeigeFilter.setText(objekt.anzeigeFilterAktualisieren());
+            anzeigeFilter.setText(objekt.getFilterText());
         }
     });
 
@@ -88,6 +91,7 @@ public class MainFrame extends JFrame {
         public void actionPerformed(ActionEvent e){
             String monatButtonText = textFieldLabelMonatJahr.getText();
             objekt.setzeMonat(monatButtonText);
+            enableStartButton(objekt.ueberpruefeVoraussetzungen());
             textFieldLabelMonatJahr.setText("");
         }
     });
@@ -100,6 +104,7 @@ public class MainFrame extends JFrame {
         public void actionPerformed(ActionEvent e){
             String jahrButtonText = textFieldLabelMonatJahr.getText();
             objekt.setzeJahr(jahrButtonText);
+            enableStartButton(objekt.ueberpruefeVoraussetzungen());
             textFieldLabelMonatJahr.setText("");
         }
     });
@@ -143,7 +148,7 @@ public class MainFrame extends JFrame {
             String firstTextFieldText = textFieldlabelWoerterHinzufuegen.getText();
             objekt.fuegeStringHinzu(firstTextFieldText);
             textFieldlabelWoerterHinzufuegen.setText("");
-            String tempString = passeTextAn(objekt);
+            String tempString = objekt.getFilterText();
             anzeigeFilter.setText(tempString);
             
         }
@@ -159,7 +164,7 @@ public class MainFrame extends JFrame {
             String secondTextFieldText = textFieldlabelWoerterEntfernen.getText();
             objekt.entferneStringAusSet(secondTextFieldText);
             textFieldlabelWoerterEntfernen.setText("");
-            anzeigeFilter.setText(passeTextAn(objekt));
+            anzeigeFilter.setText(objekt.getFilterText());
         }
     });
 
@@ -209,10 +214,10 @@ public class MainFrame extends JFrame {
   }
 
 
-  //Methode um den Text des anzeigeFilter anzupassen
-public String passeTextAn(OurFlatUebersetzung objekt){
-    String temp = objekt.anzeigeFilterAktualisieren();
-    return temp;
+  public void enableStartButton(boolean sindErfuellt){
+    if(sindErfuellt){
+        startButton.setEnabled(true);
     }
+  }
 }
 

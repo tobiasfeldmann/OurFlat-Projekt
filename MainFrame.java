@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -15,10 +14,16 @@ public class MainFrame extends JFrame {
   public void initialize(OurFlatUebersetzung objekt) {
     
     //Erstellung des Welcome Labels
-    //Ausgabefeld als Button erstellt um späteres rauskopieren des Betrags zu ermöglichen -> noch nicht implementiert
-    labelBetrag = new JLabel("Anzeige für den Betrag",0);
+    //Ausgabefeld als Button erstellt um rauskopieren des Betrags auf Knopfdruck zu ermöglichen
+    labelBetrag = new JLabel("Betrag",0);
     labelBetrag.setFont(mainFont);
     JButton textFeldLabelBetrag = new JButton();
+    textFeldLabelBetrag.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            objekt.kopiereBetragInZwischenspeicher(textFeldLabelBetrag);
+        }
+    });
     textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
 
 
@@ -60,12 +65,12 @@ public class MainFrame extends JFrame {
 
     //Erstellen eines Feldes zum aufrufen einer datei und start knopf fuer das programm                                                         *****File Chooser
     JFileChooser chooser = new JFileChooser();
-    JLabel temp = new JLabel();
+    JLabel temp = new JLabel("");
     chooser.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e){
             String dateiPfad = chooser.getSelectedFile().getPath().toString();
             temp.setText(dateiPfad);
-            objekt.dateipfadLesen(temp.getText());
+            objekt.dateipfadLesen(dateiPfad);
             enableStartButton(objekt.ueberpruefeVoraussetzungen());
         }
     });
@@ -80,6 +85,9 @@ public class MainFrame extends JFrame {
             textFeldLabelBetrag.setText("0.0");
             textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
             anzeigeFilter.setText(objekt.getFilterText());
+            objekt.gebeAusgabenzuerueck(temp.getText());
+            startButton.setEnabled(false);
+            textFeldLabelBetrag.setText(Float.toString(objekt.betrag));
         }
     });
 
@@ -144,7 +152,6 @@ public class MainFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
             String firstTextFieldText = textFieldlabelWoerterHinzufuegen.getText();
             objekt.fuegeStringHinzu(firstTextFieldText);
             textFieldlabelWoerterHinzufuegen.setText("");

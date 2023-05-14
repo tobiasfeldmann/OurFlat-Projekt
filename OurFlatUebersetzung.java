@@ -4,6 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class OurFlatUebersetzung {
     Set<String> filter = new TreeSet<String>();
@@ -70,7 +74,7 @@ public class OurFlatUebersetzung {
      */
     public void dateipfadLesen(String pfad){
         dateiPfad = pfad;
-        gebeAusgabenzuerueck();
+        System.out.println(dateiPfad);
     }
 
     /**
@@ -117,15 +121,9 @@ public class OurFlatUebersetzung {
      *
      * @return Die Ausgaben
      */
-    public float gebeAusgabenzuerueck(){
-    betrag = 0;
-        String s =  "";
-        if(dateiPfad.strip().isEmpty()){
-            s = leseOurFlatDatei();
-        }
-        else{
-            s = dateiPfad;
-        }
+    public float gebeAusgabenzuerueck(String dateiPfad){
+        betrag = 0;
+        String s =  dateiPfad;
         s = dateiAuslesen(s);
         s = entferneSonderzeichen(s);
         dateiZuListe(s);
@@ -372,5 +370,15 @@ public class OurFlatUebersetzung {
             }
         }
         return betrag;
+    }
+
+    /**
+     * Methode, die dem Zwischenspeicher den Betrag aus dem JLabel anzeigeBetrag hinzufügt
+     * @param betrag, der JButton zur Anzeige des Betrags der Oberfläche 
+     */
+    public void kopiereBetragInZwischenspeicher(JButton betrag){
+        Clipboard systemClip = Toolkit.getDefaultToolkit().getSystemClipboard();
+        systemClip.setContents(new StringSelection(betrag.getText()), null);
+
     }
 }

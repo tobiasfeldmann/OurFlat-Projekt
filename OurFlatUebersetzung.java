@@ -222,8 +222,8 @@ public class OurFlatUebersetzung {
     /**
      * Fuegt die einzelnen Betraege einem Stack hinzu, in dem diese durch die Slashs getrennt und hinzugefuegt werden
      *
-     * @param s Die datei
-     * @return Der Stack
+     * @param s Die (Text) datei
+     * @return Der Stack mit den einzelnen Ausgaben
      */
     public Stack<String> dateiZuListe(String s){
         int counterSlash = 0;
@@ -324,7 +324,7 @@ public class OurFlatUebersetzung {
                     break;
                 }
             }
-            //StringPuffer um die Moeglichkeit eines doppelten Leerzeichens zu umgehen, OurFlat schreibt manchmal bspw "Netto" oder "Netto "
+            //StringPuffer um die Moeglichkeit eines doppelten Leerzeichens zu umgehen, die App OurFlat schreibt manchmal stat "Netto" bspw. " Netto "
             String stringPuffer = stringZumPruefen.substring(0, stringZumPruefen.length() - 1);
             if(!filter.contains(stringZumPruefen) && !filter.contains((stringPuffer))){
                 stringZumPruefen = "";
@@ -341,8 +341,8 @@ public class OurFlatUebersetzung {
     }
 
     /**
-     * ungern gewaehlte zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen                         *****Teilen in zwei Funktionen
-     * Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht                                            *****ToDo
+     * zweiteilige Funktion, soll die einzelnen Element des Stacks auslesen und dann durch das Jahr den Betrag abziehen                         
+     * Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht werden, da dieses vor dem Betrag steht                                            
      * Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert - Aenderung in zwei Funktionen!
      * @return
      */

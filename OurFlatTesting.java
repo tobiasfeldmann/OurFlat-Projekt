@@ -5,6 +5,5 @@ public class OurFlatTesting {
         OurFlatUebersetzung uebersetzung1 = new OurFlatUebersetzung();
         MainFrame mf1 = new MainFrame();
         mf1.initialize(uebersetzung1);
-
     }
 }

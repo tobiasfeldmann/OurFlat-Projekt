@@ -121,7 +121,7 @@ public class OurFlatUebersetzung {
         }
     }
 
-    // ****** Ende Methoden Oberflaeche */
+    // ****** Ende Methoden Oberfläche */
 
     /**
      * Berechnet und liefert die Ausgaben
@@ -366,9 +366,7 @@ public class OurFlatUebersetzung {
      * Das auslesen des Betrags sollte durch das erreichen des Jahres erreicht
      * werden, da dieses vor dem Betrag steht
      * Deshalb wird gleichzeitig nach dem jeweilig gewuenschten Jahr gefiltert -
-     * Aenderung in zwei Funktionen!
-     * 
-     * @return
+     * @return den Betrag als Float
      */
     public float auslesenDerBetraege() {
         String aktuellerString = "";

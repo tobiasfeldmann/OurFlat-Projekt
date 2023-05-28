@@ -100,6 +100,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String monatButtonText = textFieldLabelMonatJahr.getText();
                 objekt.setzeMonat(monatButtonText);
+                labelBetrag.setText("Betrag für: " + monatButtonText);
                 enableStartButton(objekt.ueberpruefeVoraussetzungen());
                 textFieldLabelMonatJahr.setText("");
             }
@@ -113,6 +114,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String jahrButtonText = textFieldLabelMonatJahr.getText();
                 objekt.setzeJahr(jahrButtonText);
+                labelBetrag.setText(labelBetrag.getText() + " " + jahrButtonText);
                 enableStartButton(objekt.ueberpruefeVoraussetzungen());
                 textFieldLabelMonatJahr.setText("");
             }
@@ -214,7 +216,7 @@ public class MainFrame extends JFrame {
 
         // Eigenschaften des Fensters, nicht verkleinerbar, da sonst die Anordnung
         // zerstoert wird
-        setTitle("OurFlat Übersetzung");
+        setTitle("OurFlat Auswertung");
         setSize(1400, 790);
         setMinimumSize(new Dimension(1400, 790));
         setLocationRelativeTo(null);

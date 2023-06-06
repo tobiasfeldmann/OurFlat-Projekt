@@ -10,11 +10,13 @@ public class MainFrame extends JFrame {
     JTextArea anzeigeFilter = new JTextArea();
     JButton startButton;
     Dimension buttonSize = new Dimension(100, 100);
-    JPanel mainPanel, mainPanel2;
+    JPanel mainPanel = new JPanel(); 
+    JPanel mainPanel2 = new JPanel();
 
-    JLabel anzeigeTest;
-    JButton aendereAnzeige1, aendereAnzeige2;
-
+    //Für zweite Ansicht, auswahl einzelner Ausgaben
+    JLabel anzeigeAktuelleAusgabe, anzeigeAlleAusgaben;
+    JButton aendereAnzeige1, aendereAnzeige2, buttonWeiter, buttonZurueck, buttonStart, buttonHinzufuegen, buttonBerechne;
+    JTextField auswahlAusgabe;
 
     public void initialize(OurFlatUebersetzung objekt) {
 
@@ -181,14 +183,13 @@ public class MainFrame extends JFrame {
                 anzeigeFilter.setText(objekt.getFilterText());
             }
         });
-        mainPanel = new JPanel();
         //TestButton zum Ändern der Anzeige des Mainframes bzw. switchen der Anzeige
         aendereAnzeige1 = new JButton("Ändere Anzeige");
         aendereAnzeige1.setFont(mainFont);
         aendereAnzeige1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aendereAnzeige(objekt);
+                aendereAnzeige(objekt, mainPanel);
             }
         });
 
@@ -240,36 +241,133 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public void aendereAnzeige(OurFlatUebersetzung objekt){
+    public void aendereAnzeige(OurFlatUebersetzung objekt, JPanel mainPanelX){
 
-        // Main anzeige *****Main Anzeige
-        JPanel mainPanel2 = new JPanel();
-        mainPanel2.setLayout(new BorderLayout());
-        mainPanel2.setBackground(new Color(128, 128, 255));
-        // erzeugung eines Margin zu allein seiten
-        mainPanel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        //NORTH Panel
+        auswahlAusgabe = new JTextField("Hier Bezeichnung der Ausgabe eintragen");
+        auswahlAusgabe.setFont(mainFont);
 
-        JLabel testAnzeige = new JLabel("Test");
+        JPanel panelNorth = new JPanel(new GridLayout(1,1));
+        panelNorth.add(auswahlAusgabe);
+        panelNorth.setOpaque(false);
+    
 
-        //Button zum ändern der Anzeige, ruft die initialize Methode auf, bzw die Standardoberfläche
-        aendereAnzeige2 = new JButton("Ändere Anzeige");
-        aendereAnzeige2.setFont(mainFont);
-        aendereAnzeige2.addActionListener(new ActionListener() {
+        //EAST Panel
+        JFileChooser chooser = new JFileChooser();
+        JPanel panelEast = new JPanel(new GridLayout(1,1));
+        panelEast.add(chooser);
+
+        //SOUTH Panel 
+        buttonStart = new JButton("Start");
+        buttonStart.setFont(mainFont);
+        buttonStart.addActionListener(new ActionListener() {
+
             @Override
-            public void actionPerformed(ActionEvent e){
-                //Nötig um zur Hauptanzeige zurück zu wechseln
-                remove(mainPanel2);
-                update(getGraphics());
-                initialize(objekt);
+            public void actionPerformed (ActionEvent e){
+
             }
         });
 
+        buttonBerechne = new JButton("Berechne");
+        buttonBerechne.setFont(mainFont);
+        buttonBerechne.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
 
-        JPanel testPanel = new JPanel(new GridLayout(2, 1));
-        testPanel.add(testAnzeige);
-        testPanel.add(aendereAnzeige2);
+            }
+        });
 
-        mainPanel2.add(testPanel);
+        buttonZurueck = new JButton("Zurück");
+        buttonZurueck.setFont(mainFont);
+        buttonZurueck.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed (ActionEvent e){
+
+            }
+        });
+
+        buttonWeiter = new JButton("Weiter");
+        buttonWeiter.setFont(mainFont);
+        buttonWeiter.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed (ActionEvent e){
+
+            }
+        });
+
+        aendereAnzeige2 = new JButton("Ändere Anzeige");
+        aendereAnzeige2.setFont(mainFont);
+        aendereAnzeige2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed (ActionEvent e){
+                //Nötig um zur Hauptanzeige zurück zu wechseln
+                remove(mainPanel2);
+                update(getGraphics());
+                add(mainPanelX);
+                update(getGraphics());
+            }
+        });
+
+        JPanel panelSouth = new JPanel(new GridLayout(1, 5));
+        panelSouth.add(buttonStart);
+        panelSouth.add(buttonBerechne);
+        panelSouth.add(buttonZurueck);
+        panelSouth.add(buttonWeiter);
+        panelSouth.add(aendereAnzeige2);
+        panelSouth.setOpaque(false);
+
+        //WEST Panel
+
+        anzeigeAktuelleAusgabe = new JLabel("Anzeige aktuelle Ausgabe");
+        anzeigeAktuelleAusgabe.setFont(mainFont);
+
+        buttonHinzufuegen = new JButton("Hinzufügen");
+        buttonHinzufuegen.setFont(mainFont);
+        buttonHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+
+            }
+        });
+
+        JPanel panelWest = new JPanel(new GridLayout(2,1));
+        panelWest.add(anzeigeAktuelleAusgabe);
+        panelWest.add(buttonHinzufuegen);
+        panelWest.setOpaque(false);
+
+        //CENTER Panel
+        anzeigeAlleAusgaben = new JLabel("Anzeige aller Ausgaben");
+        anzeigeAlleAusgaben.setFont(mainFont);
+        JPanel panelCenter = new JPanel(new GridLayout(1,1));
+        panelCenter.add(anzeigeAlleAusgaben);
+        
+
+        // Main anzeige *****Main Anzeige
+
+        mainPanel2.setLayout(new BorderLayout());
+        mainPanel2.setBackground(new Color(128, 128, 255));
+
+        // erzeugung eines Margin zu allein seiten
+        mainPanel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        panelSouth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainPanel2.add(panelSouth, BorderLayout.SOUTH);
+
+        panelNorth.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        mainPanel2.add(panelNorth, BorderLayout.NORTH);
+
+        panelEast.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panelEast.setOpaque(false);
+        mainPanel2.add(panelEast, BorderLayout.EAST);
+
+        panelWest.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        mainPanel2.add(panelWest, BorderLayout.WEST);
+
+        panelCenter.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        mainPanel2.add(panelCenter, BorderLayout.CENTER);
 
         //entfernt das bisherige Panel, updatet die Oberfläche und fügt dann das neue hinzu.
         remove(mainPanel);

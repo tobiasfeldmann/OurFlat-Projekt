@@ -10,6 +10,11 @@ public class MainFrame extends JFrame {
     JTextArea anzeigeFilter = new JTextArea();
     JButton startButton;
     Dimension buttonSize = new Dimension(100, 100);
+    JPanel mainPanel, mainPanel2;
+
+    JLabel anzeigeTest;
+    JButton aendereAnzeige1, aendereAnzeige2;
+
 
     public void initialize(OurFlatUebersetzung objekt) {
 
@@ -176,6 +181,16 @@ public class MainFrame extends JFrame {
                 anzeigeFilter.setText(objekt.getFilterText());
             }
         });
+        mainPanel = new JPanel();
+        //TestButton zum Ändern der Anzeige des Mainframes bzw. switchen der Anzeige
+        aendereAnzeige1 = new JButton("Ändere Anzeige");
+        aendereAnzeige1.setFont(mainFont);
+        aendereAnzeige1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                aendereAnzeige(objekt);
+            }
+        });
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 2, 5, 5));
@@ -186,9 +201,10 @@ public class MainFrame extends JFrame {
         buttonsPanel.add(monatButton);
         buttonsPanel.add(jahrButton);
         buttonsPanel.add(startButton);
+        buttonsPanel.add(aendereAnzeige1);
 
         // Main anzeige *****Main Anzeige
-        JPanel mainPanel = new JPanel();
+        //JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(128, 128, 255));
         // erzeugung eines Margin zu allein seiten
@@ -219,6 +235,47 @@ public class MainFrame extends JFrame {
         setTitle("OurFlat Auswertung");
         setSize(1400, 790);
         setMinimumSize(new Dimension(1400, 790));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public void aendereAnzeige(OurFlatUebersetzung objekt){
+
+        // Main anzeige *****Main Anzeige
+        JPanel mainPanel2 = new JPanel();
+        mainPanel2.setLayout(new BorderLayout());
+        mainPanel2.setBackground(new Color(128, 128, 255));
+        // erzeugung eines Margin zu allein seiten
+        mainPanel2.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel testAnzeige = new JLabel("Test");
+
+        //Button zum ändern der Anzeige, ruft die initialize Methode auf, bzw die Standardoberfläche
+        aendereAnzeige2 = new JButton("Ändere Anzeige");
+        aendereAnzeige2.setFont(mainFont);
+        aendereAnzeige2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                //Nötig um zur Hauptanzeige zurück zu wechseln
+                remove(mainPanel2);
+                update(getGraphics());
+                initialize(objekt);
+            }
+        });
+
+
+        JPanel testPanel = new JPanel(new GridLayout(2, 1));
+        testPanel.add(testAnzeige);
+        testPanel.add(aendereAnzeige2);
+
+        mainPanel2.add(testPanel);
+
+        //entfernt das bisherige Panel, updatet die Oberfläche und fügt dann das neue hinzu.
+        remove(mainPanel);
+        update(getGraphics());
+        add(mainPanel2);
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

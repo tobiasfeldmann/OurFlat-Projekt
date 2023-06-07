@@ -189,6 +189,10 @@ public class MainFrame extends JFrame {
         aendereAnzeige1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                remove(mainPanel);
+                update(getGraphics());
+                add(mainPanel2);
+                update(getGraphics());
                 aendereAnzeige(objekt, mainPanel);
             }
         });
@@ -242,6 +246,7 @@ public class MainFrame extends JFrame {
     }
 
     public void aendereAnzeige(OurFlatUebersetzung objekt, JPanel mainPanelX){
+        mainPanel2.removeAll();
 
         //NORTH Panel
         auswahlAusgabe = new JTextField("Hier Bezeichnung der Ausgabe eintragen");
@@ -296,7 +301,6 @@ public class MainFrame extends JFrame {
 
             }
         });
-
         aendereAnzeige2 = new JButton("Ändere Anzeige");
         aendereAnzeige2.setFont(mainFont);
         aendereAnzeige2.addActionListener(new ActionListener() {
@@ -370,9 +374,8 @@ public class MainFrame extends JFrame {
         mainPanel2.add(panelCenter, BorderLayout.CENTER);
 
         //entfernt das bisherige Panel, updatet die Oberfläche und fügt dann das neue hinzu.
-        remove(mainPanel);
-        update(getGraphics());
         add(mainPanel2);
+        update(getGraphics());
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

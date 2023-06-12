@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
 
     //Für zweite Ansicht, auswahl einzelner Ausgaben
     JLabel anzeigeAktuelleAusgabe, anzeigeAlleAusgaben;
-    JButton aendereAnzeige1, aendereAnzeige2, buttonWeiter, buttonZurueck, buttonStart, buttonHinzufuegen, buttonBerechne;
+    JButton aendereAnzeige1, aendereAnzeige2, buttonWeiter, buttonZurueck, buttonStart, buttonHinzufuegen, buttonBerechne, buttonLetzteEntfernen;
     JTextField auswahlAusgabe;
 
     public void initialize(OurFlatUebersetzung objekt) {
@@ -337,9 +337,19 @@ public class MainFrame extends JFrame {
             }
         });
 
-        JPanel panelWest = new JPanel(new GridLayout(2,1));
+        buttonLetzteEntfernen = new JButton("Letzte Entfernen");
+        buttonLetzteEntfernen.setFont(mainFont);
+        buttonLetzteEntfernen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+
+            }
+        });
+
+        JPanel panelWest = new JPanel(new GridLayout(3,1));
         panelWest.add(anzeigeAktuelleAusgabe);
         panelWest.add(buttonHinzufuegen);
+        panelWest.add(buttonLetzteEntfernen);
         panelWest.setOpaque(false);
 
         //CENTER Panel
